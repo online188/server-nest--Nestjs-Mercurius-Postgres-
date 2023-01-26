@@ -1,0 +1,58 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  """id of the user"""
+  userId: String!
+
+  """first name of the user"""
+  firstName: String!
+
+  """last name of the user"""
+  lastName: String!
+
+  """username of the user"""
+  username: String!
+
+  """email of the user"""
+  email: String!
+
+  """role of the user"""
+  role: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type LoggedUserOutput {
+  """Generated access_token of the user"""
+  accessToken: String!
+}
+
+type Query {
+  users: [User!]!
+}
+
+type Mutation {
+  signUp(registerInput: RegisterInput!): User!
+  signIn(loginInput: LoginInput!): LoggedUserOutput!
+}
+
+input RegisterInput {
+  username: String!
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  role: String!
+}
+
+input LoginInput {
+  usernameOrEmail: String!
+  password: String!
+}
