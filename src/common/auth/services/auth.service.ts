@@ -1,13 +1,13 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersRepository } from './users.repository';
+import { UsersRepository } from '../../../users/users.repository';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
-import { LoginInput } from './dto/LoginInput';
-import { User } from './user.entity';
-import { RegisterInput } from './dto/RegisterInput';
-import { LoggedUserOutput } from './dto/logged-user.output';
+import { LoginInput } from '../../../users/dto/LoginInput';
+import { User } from '../../../users/entities/user.entity';
+import { RegisterInput } from '../../../users/dto/RegisterInput';
+import { LoggedUserOutput } from '../../../users/dto/logged-user.output';
 
 @Injectable()
 export class AuthService {
@@ -33,15 +33,11 @@ export class AuthService {
       let username = user.username;
       const payload: JwtPayload = { username };
       const accessToken: string = await this.jwtService.sign(payload);
-      console.log(accessToken);
+      // console.log(accessToken);
       // return user;
       return { accessToken };
     } else {
       throw new UnauthorizedException('Please check your login credentials');
     }
-  }
-
-  async findAll(): Promise<Array<User>> {
-    return await this.usersRepository.find();
   }
 }

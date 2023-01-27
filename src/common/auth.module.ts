@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthResolver } from './auth.resolver';
+import { AuthService } from './auth/services/auth.service';
+import { AuthResolver } from './auth/auth.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersRepository } from './users.repository';
+import { UsersRepository } from '../users/users.repository';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './jwt.strategy';
+import { JwtStrategy } from './auth/services/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UsersResolver } from './users.resolver';
-import { UsersService } from './users.service';
-import { User } from './user.entity';
+import { UsersResolver } from '../users/users.resolver';
+import { UsersService } from '../users/users.service';
+import { User } from '../users/entities/user.entity';
 
 @Module({
   imports: [
@@ -28,13 +28,7 @@ import { User } from './user.entity';
     TypeOrmModule.forFeature([User, UsersRepository]),
     // TypeOrmModule.forFeature([UsersRepository]),
   ],
-  providers: [
-    AuthService,
-    AuthResolver,
-    // UsersResolver,
-    // UsersService,
-    JwtStrategy,
-  ],
+  providers: [AuthService, AuthResolver, JwtStrategy],
   exports: [AuthService, JwtStrategy, PassportModule],
 })
 export class AuthModule {}

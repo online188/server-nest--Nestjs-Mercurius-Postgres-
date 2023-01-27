@@ -31,11 +31,11 @@ export class User extends BaseEntity {
   @Field(() => String, { description: 'last name of the user' })
   lastName: string;
 
-  @Field(() => String, { description: 'username of the user' })
   @Column({ unique: true })
+  @Field(() => String, { description: 'username of the user' })
   username!: string;
 
-  @Column()
+  @Column({ unique: true })
   @Field(() => String, { description: 'email of the user' })
   email!: string;
 

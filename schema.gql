@@ -36,9 +36,13 @@ type LoggedUserOutput {
 
 type Query {
   users: [User!]!
+  user(userId: String!): User!
 }
 
 type Mutation {
+  createUser(registerInput: RegisterInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(userId: String!): User!
   signUp(registerInput: RegisterInput!): User!
   signIn(loginInput: LoginInput!): LoggedUserOutput!
 }
@@ -50,6 +54,16 @@ input RegisterInput {
   firstName: String!
   lastName: String!
   role: String!
+}
+
+input UpdateUserInput {
+  username: String
+  email: String
+  password: String
+  firstName: String
+  lastName: String
+  role: String
+  userId: String!
 }
 
 input LoginInput {
