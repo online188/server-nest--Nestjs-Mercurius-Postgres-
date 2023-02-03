@@ -1,5 +1,5 @@
-import { Post } from '@nestjs/common';
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { Upvote } from '../../post/entities/Upvote';
 import {
   BaseEntity,
   Column,
@@ -9,7 +9,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-// import { Post } from './Post';
+import { Post } from '../../post/entities/post.entity';
+
 // import { Upvote } from './Upvote';
 
 @ObjectType() //Chuyển từ typescript cho graphql tới graphql: @Field()
@@ -17,7 +18,7 @@ import {
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => String, { description: 'id of the user' })
-  userId: string;
+  id: string;
 
   // @Column('int')
   // @Field(() => Int, { description: 'Example field (placeholder)' })
@@ -46,11 +47,11 @@ export class User extends BaseEntity {
   @Field(() => String, { description: 'role of the user' })
   role: string;
 
-  // @OneToMany(() => Post, (post) => post.user)
-  // posts: Post[];
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[];
 
-  // @OneToMany((_to) => Upvote, (upvote) => upvote.user)
-  // upvotes: Upvote[];
+  @OneToMany((_to) => Upvote, (upvote) => upvote.user)
+  upvotes: Upvote[];
 
   @Field()
   @CreateDateColumn()

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AuthService } from './auth/services/auth.service';
 import { AuthResolver } from './auth/auth.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -10,6 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersResolver } from '../users/users.resolver';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
+import { CurrentUserMiddleware } from './middleware/current-user.middleware';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { User } from '../users/entities/user.entity';
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get('JWT_SECRET'),
         signOptions: {
-          expiresIn: 3600,
+          expiresIn: '86400s',
         },
       }),
     }),
@@ -31,4 +32,8 @@ import { User } from '../users/entities/user.entity';
   providers: [AuthService, AuthResolver, JwtStrategy],
   exports: [AuthService, JwtStrategy, PassportModule],
 })
-export class AuthModule {}
+export class AuthModule {
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer.apply(CurrentUserMiddleware).forRoutes('*');
+  // }
+}

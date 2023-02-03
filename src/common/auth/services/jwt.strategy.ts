@@ -17,10 +17,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       secretOrKey: configService.get('JWT_SECRET'),
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
     });
   }
 
   async validate(payload: JwtPayload): Promise<User> {
+    // console.log(payload);
     const { username } = payload;
     const user: User = await this.usersRepository.findOne({ username });
 
@@ -28,6 +30,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException();
     }
 
-    return user;
+    return user; // đẩy user vào @Context() (imported from '@nestjs/graphql')
   }
 }

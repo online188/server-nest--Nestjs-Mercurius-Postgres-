@@ -10,10 +10,11 @@ import { ConfigModule } from '@nestjs/config';
 import { configValidationSchema } from './config.schema';
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius';
 import { CommonModule } from './common/common.module';
+import { PostModule } from './post/post.module';
 dotenv.config();
 
 @Module({
-  imports: [UsersModule, CommonModule],
+  imports: [UsersModule, CommonModule, PostModule],
   controllers: [AppController],
   providers: [AppService],
 })
